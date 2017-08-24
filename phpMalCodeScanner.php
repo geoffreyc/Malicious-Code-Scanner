@@ -13,7 +13,8 @@ License: GPL-2
 
 // Set to your email:
 define('SEND_EMAIL_ALERTS_TO','youremail@example.com');
-
+// Ignore symlinked folders
+define('IGNORE_LINK', TRUE);
 
 ############################################ START CLASS
 
@@ -42,6 +43,7 @@ class phpMalCodeScan {
 			if(is_file($dir.'/'.$file) && !in_array($dir.'/'.$file,$this->scanned_files)) {
 				$this->check(file_get_contents($dir.'/'.$file),$dir.'/'.$file);
 			} elseif(is_dir($dir.'/'.$file) && substr($file,0,1) != '.') {
+				if(IGNORE_LINK && is_link($dir.'/'.$file)) continue;
 				$this->scan($dir.'/'.$file);
 			}
 		}
